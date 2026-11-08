@@ -8,6 +8,7 @@ import { SettingsView } from './components/SettingsView';
 import { PaymentModal } from './components/PaymentModal';
 import { ReceiptModal } from './components/ReceiptModal';
 import { CashierLoginModal } from './components/CashierLoginModal';
+import { EditCashierNameModal } from './components/EditCashierNameModal';
 import { ToastContainer, ToastMessage } from './components/Toast';
 import {
   Product,
@@ -53,6 +54,7 @@ export default function App() {
   const [activeReceipt, setActiveReceipt] = useState<Transaction | null>(null);
 
   const [isSwitchCashierModalOpen, setIsSwitchCashierModalOpen] = useState(false);
+  const [isEditCashierNameModalOpen, setIsEditCashierNameModalOpen] = useState(false);
 
   // Toast notifications
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -270,6 +272,7 @@ export default function App() {
         setCurrentTab={setCurrentTab}
         activeCashier={activeCashier}
         onOpenSwitchCashier={() => setIsSwitchCashierModalOpen(true)}
+        onOpenEditCashierName={() => setIsEditCashierNameModalOpen(true)}
         settings={settings}
         cartItemCount={totalCartCount}
       />
@@ -361,6 +364,17 @@ export default function App() {
         onOpenAddCashier={() => {
           setIsSwitchCashierModalOpen(false);
           setCurrentTab('cashiers');
+        }}
+      />
+
+      {/* Edit Cashier Name Modal */}
+      <EditCashierNameModal
+        isOpen={isEditCashierNameModalOpen}
+        onClose={() => setIsEditCashierNameModalOpen(false)}
+        cashier={activeCashier}
+        onSave={async (updated) => {
+          await handleAddOrUpdateCashier(updated);
+          showToast(`Nama kasir berhasil diperbarui menjadi "${updated.name}"`, 'success');
         }}
       />
 

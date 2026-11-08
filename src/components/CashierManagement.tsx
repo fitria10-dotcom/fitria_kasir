@@ -291,20 +291,30 @@ export const CashierManagement: React.FC<CashierManagementProps> = ({
                 </div>
               </div>
 
-              {/* Bottom Button: Switch to this Cashier */}
-              <div className="mt-4 pt-2">
+              {/* Bottom Buttons: Ubah Nama & Tugaskan Kasir */}
+              <div className="mt-4 pt-2.5 border-t border-slate-100 flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleOpenEdit(c)}
+                  className="flex-1 py-2 bg-slate-100 hover:bg-amber-100 text-slate-800 hover:text-amber-900 font-semibold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 border border-slate-200"
+                >
+                  <Edit3 className="w-3.5 h-3.5 text-amber-600" />
+                  <span>Ubah Nama</span>
+                </button>
+
                 {isCurrentActive ? (
-                  <div className="w-full py-2 bg-emerald-50 text-emerald-700 font-semibold text-xs rounded-xl flex items-center justify-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span>Kasir Saat Ini Aktif di POS</span>
+                  <div className="flex-1 py-2 bg-emerald-50 text-emerald-700 font-semibold text-xs rounded-xl flex items-center justify-center gap-1 border border-emerald-200">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Aktif</span>
                   </div>
                 ) : (
                   <button
+                    type="button"
                     onClick={() => onSetActiveCashier(c)}
-                    className="w-full py-2 bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white font-semibold text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 active:scale-95 shadow-sm"
+                    className="flex-1 py-2 bg-slate-900 hover:bg-amber-500 hover:text-slate-950 text-white font-semibold text-xs rounded-xl transition-all flex items-center justify-center gap-1 active:scale-95 shadow-sm"
                   >
                     <UserCheck className="w-3.5 h-3.5" />
-                    <span>Tugaskan Kasir Ini Sekarang</span>
+                    <span>Tugaskan</span>
                   </button>
                 )}
               </div>
@@ -324,10 +334,12 @@ export const CashierManagement: React.FC<CashierManagementProps> = ({
                 </div>
                 <div>
                   <h3 className="font-bold text-base text-slate-900">
-                    {editingCashier ? 'Edit Akun Kasir' : 'Tambah Akun Kasir Baru'}
+                    {editingCashier ? 'Ubah Nama & Profil Kasir' : 'Tambah Akun Kasir Baru'}
                   </h3>
                   <p className="text-xs text-slate-500">
-                    Tambahkan profil staf untuk melayani transaksi di kasir
+                    {editingCashier
+                      ? 'Perbarui nama akun kasir, username, atau PIN'
+                      : 'Tambahkan profil staf untuk melayani transaksi di kasir'}
                   </p>
                 </div>
               </div>

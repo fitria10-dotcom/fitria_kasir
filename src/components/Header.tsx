@@ -1,5 +1,5 @@
 import React from 'react';
-import { Store, ShoppingCart, Package, Users, BarChart3, Settings, Clock, UserCheck } from 'lucide-react';
+import { Store, ShoppingCart, Package, Users, BarChart3, Settings, Clock, UserCheck, Edit3 } from 'lucide-react';
 import { CashierAccount, StoreSettings } from '../types';
 
 interface HeaderProps {
@@ -7,6 +7,7 @@ interface HeaderProps {
   setCurrentTab: (tab: 'pos' | 'products' | 'cashiers' | 'reports' | 'settings') => void;
   activeCashier: CashierAccount | null;
   onOpenSwitchCashier: () => void;
+  onOpenEditCashierName: () => void;
   settings: StoreSettings;
   cartItemCount: number;
 }
@@ -16,6 +17,7 @@ export const Header: React.FC<HeaderProps> = ({
   setCurrentTab,
   activeCashier,
   onOpenSwitchCashier,
+  onOpenEditCashierName,
   settings,
   cartItemCount,
 }) => {
@@ -136,9 +138,13 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="font-mono text-slate-200">{time}</span>
             </div>
 
-            {/* Active Cashier Card & Switch Button */}
+            {/* Active Cashier Card & Switch/Edit Button */}
             <div className="flex items-center gap-2 bg-slate-800/90 border border-slate-700/80 pl-2 pr-1.5 py-1 rounded-xl">
-              <div className="relative">
+              <div
+                onClick={onOpenEditCashierName}
+                title="Klik untuk ubah foto & profil kasir"
+                className="relative cursor-pointer hover:opacity-90"
+              >
                 {activeCashier?.avatar ? (
                   <img
                     src={activeCashier.avatar}
@@ -153,10 +159,17 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 border-2 border-slate-900 rounded-full"></span>
               </div>
 
-              <div className="text-left hidden sm:block">
-                <p className="text-xs font-semibold text-slate-200 truncate max-w-[120px]">
-                  {activeCashier?.name || 'Kasir Default'}
-                </p>
+              <div
+                onClick={onOpenEditCashierName}
+                title="Klik untuk ubah nama kasir ini"
+                className="text-left hidden sm:block cursor-pointer group"
+              >
+                <div className="flex items-center gap-1">
+                  <p className="text-xs font-semibold text-slate-200 group-hover:text-amber-400 transition-colors truncate max-w-[110px]">
+                    {activeCashier?.name || 'Kasir Default'}
+                  </p>
+                  <Edit3 className="w-3 h-3 text-slate-400 group-hover:text-amber-400 transition-colors shrink-0" />
+                </div>
                 <span className="text-[10px] text-amber-400 capitalize block leading-none">
                   {activeCashier?.role === 'admin'
                     ? 'Owner / Admin'
@@ -166,10 +179,20 @@ export const Header: React.FC<HeaderProps> = ({
                 </span>
               </div>
 
+              {/* Quick action buttons: Ubah Nama & Ganti Kasir */}
+              <button
+                onClick={onOpenEditCashierName}
+                title="Ubah Nama Akun Kasir"
+                className="p-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500 hover:text-slate-950 text-amber-400 transition-colors text-xs flex items-center gap-1 border border-amber-500/30"
+              >
+                <Edit3 className="w-3.5 h-3.5" />
+                <span className="hidden xl:inline text-[11px] font-semibold">Ubah Nama</span>
+              </button>
+
               <button
                 onClick={onOpenSwitchCashier}
                 title="Ganti atau Kunci Kasir"
-                className="ml-1 p-1.5 rounded-lg bg-slate-700/70 hover:bg-amber-500 hover:text-slate-950 text-slate-300 transition-colors text-xs flex items-center gap-1"
+                className="p-1.5 rounded-lg bg-slate-700/70 hover:bg-slate-600 text-slate-300 transition-colors text-xs flex items-center gap-1"
               >
                 <UserCheck className="w-3.5 h-3.5" />
                 <span className="hidden xl:inline text-[11px]">Ganti</span>
